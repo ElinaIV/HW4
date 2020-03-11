@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <random>
 #include "Timer.cpp"
+#include "Hash.h"
+
 
 void number_one() {
     const int size = 100000;
@@ -57,7 +59,7 @@ void number_two() {
 }
 
 void number_three() {
-    const int size = 300000;
+    const int size = 200000;
     std::set<size_t> set;
     srand(time(0));
 
@@ -97,9 +99,51 @@ void number_three() {
     std::cout << size - set.size() << std::endl;
 }
 
+void number_four() {
+    const int size = 200000;
+    char* random_chars[size];
+
+    for (int i = 0; i < size; ++i) {
+        random_chars[i] = gen_random();
+    }
+
+    std::set<unsigned int> setRS;
+    std::set<unsigned int> setJS;
+    std::set<unsigned int> setPJW;
+    std::set<unsigned int> setELF;
+    std::set<unsigned int> setBKDR;
+    std::set<unsigned int> setSDBM;
+    std::set<unsigned int> setDJB;
+    std::set<unsigned int> setDEK;
+    std::set<unsigned int> setAP;
+
+    for (int i = 0; i < size; ++i) {
+        setRS.insert(RSHash(random_chars[i], 6));
+        setJS.insert(JSHash(random_chars[i], 6));
+        setPJW.insert(PJWHash(random_chars[i], 6));
+        setELF.insert(ELFHash(random_chars[i], 6));
+        setBKDR.insert(BKDRHash(random_chars[i], 6));
+        setSDBM.insert(SDBMHash(random_chars[i], 6));
+        setDJB.insert(DJBHash(random_chars[i], 6));
+        setDEK.insert(DEKHash(random_chars[i], 6));
+        setAP.insert(APHash(random_chars[i], 6));
+    }
+
+    std::cout << "RS: " << size - setRS.size() << std::endl;
+    std::cout << "JS: " << size - setJS.size() << std::endl;
+    std::cout << "PJW: " << size - setPJW.size() << std::endl;
+    std::cout << "ELF: " << size - setELF.size() << std::endl;
+    std::cout << "BKDR: " << size - setBKDR.size() << std::endl;
+    std::cout << "SDBM: " << size - setSDBM.size() << std::endl;
+    std::cout << "DJB: " << size - setDJB.size() << std::endl;
+    std::cout << "DEK: " << size - setDEK.size() << std::endl;
+    std::cout << "AP: " << size - setAP.size() << std::endl;
+}
+
 int main() {
     //number_one();
     //number_two();
-    number_three();
+    //number_three();
+    number_four();
 }
 
