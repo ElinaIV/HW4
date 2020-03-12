@@ -59,22 +59,18 @@ void number_two() {
 }
 
 void number_three() {
-    const int size = 200000;
+    const int size = 38;
     std::set<size_t> set;
-    srand(time(0));
+    double delta = 147;
 
     struct fields {
-        int one;
-        double two;
-        float three;
-        long long int four;
+        std::mt19937 gen { std::random_device()() };
+        std::uniform_int_distribution<int> uid;
 
-        fields() {
-            one = rand();
-            two = rand() * 0.993431;
-            three = rand() * 1.12345;
-            four = rand();
-        }
+        int one = 0;
+        double two = 0;
+        float three = 0;
+        long long int four = 0;
     };
 
     class MyHash {
@@ -89,18 +85,26 @@ void number_three() {
         }
     };
 
-    std::array<fields*, size> arr_of_structs;
+    auto str = new fields;
     for (int i = 0; i < size; ++i) {
-        arr_of_structs[i] = new fields;
-        set.insert(MyHash()(*arr_of_structs[i]));
-        delete arr_of_structs[i];
+        str->one += delta;
+        for (int j = 0; j < size; ++j) {
+            str->two += delta;
+            for (int k = 0; k < size; ++k) {
+                str->three += delta;
+                for (int n = 0; n < size; ++n) {
+                    str->four += delta;
+                    set.insert(MyHash()(*str));
+                }
+            }
+        }
     }
 
-    std::cout << size - set.size() << std::endl;
+    std::cout << size*size*size*size - set.size() << std::endl;
 }
 
 void number_four() {
-    const int size = 200000;
+    const int size = 20000;
     char* random_chars[size];
 
     for (int i = 0; i < size; ++i) {
@@ -143,7 +147,7 @@ void number_four() {
 int main() {
     //number_one();
     //number_two();
-    //number_three();
-    number_four();
+    number_three();
+    //number_four();
 }
 
